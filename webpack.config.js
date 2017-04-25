@@ -1,16 +1,20 @@
+'use strict';
+
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// Replaces .babelrc
+var babelOptions = {
+    "presets": ["env"]
+};
+
 var webpackConfig = {
     entry: './src/ts/app.ts',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'js/app.bundle.js'
+        filename: 'js/[name].bundle.js'
     },
     devServer: {
-        // Added for angular routing - The production server must also have
-        // settings to default to the angular app, or html5Mode must be disabled
-        // for bookmarking purposes
-        //historyApiFallback: true,
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
         port: 9001,
@@ -22,12 +26,25 @@ var webpackConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: babelOptions
+                    }
+                ]
             },
             {
-                test: /\.ts$/,
+                test: /\.ts(x?)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader', 'ts-loader']
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: babelOptions
+                    },
+                    {
+                        loader:'ts-loader'
+                    }
+                ]
             }
         ]
     },
@@ -38,7 +55,7 @@ var webpackConfig = {
         })
     ],
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.tsx', '.js']
     }
 }
 

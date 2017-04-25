@@ -1,3 +1,18 @@
 {
-    "files": ["./src/ts/app.ts"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "target": "es2015",
+        "removeComments": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "files": ["./src/ts/app.ts"],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }
